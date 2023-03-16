@@ -1,0 +1,70 @@
+* {
+    font-size: 10px;
+    font-family: 'Times New Roman';
+}
+
+td,
+th,
+tr,
+table {
+    border-top: 1px solid black;
+    border-collapse: collapse;
+}
+
+td.producto,
+th.producto {
+    width: 50%;
+    max-width: 50%;
+    word-wrap: break-word; /* old name */
+    overflow-wrap: break-word;
+    text-align:left;
+}
+
+td.cantidad,
+th.cantidad {
+    width: 25%;
+    max-width: 25%;
+    word-break: break-all;
+    text-align:left;
+}
+
+td.precio,
+th.precio {
+    width: 25%;
+    max-width: 25%;
+    word-break: break-all;
+    text-align:right;
+}
+
+.centrado {
+    text-align: center;
+    align-content: center;
+}
+
+.ticket {
+    width: 100%;
+    max-width: 100%;
+}
+
+img {
+    max-width: inherit;
+    width: inherit;
+}
+
+@media print {
+    .oculto-impresion,
+    .oculto-impresion * {
+        display: none !important;
+    }
+}
+
+table.center {
+    margin-left:auto; 
+    margin-right:auto;
+  }
+
+
+  .derecha {
+    text-align: right;
+    align-content: center;
+}
