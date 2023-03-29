@@ -30,7 +30,7 @@ Pasos de instalación
 
 ¡Felicidades! Ha instalado correctamente JCPOS Ultimate en su computadora local. Ahora puede usarlo para administrar su negocio y realizar ventas.
 
-https://www.youtube.com/playlist?list=PLILw_UuW19grWm81d95SV8ikxLiT3ObXx
+https://www.youtube.com/watch?v=glFpzKEBN9U&list=PLILw_UuW19gpNvXiJO61x26AqkzGvQ7q1
 
 Tambien podran ver detalladamente los cambios en la siguiente pagina
 https://cesarsystems.com.mx/tag/jcpos
