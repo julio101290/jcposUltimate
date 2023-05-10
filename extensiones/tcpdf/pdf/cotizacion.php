@@ -374,9 +374,9 @@ EOF;
 //SOLO TRAE ARCHIVO
 //$pdf->Output(getcwd().'/PDF/COTIZACION'.$valorVenta.'.pdf', 'F');
 
-        $pdf->Output(getcwd() . '/PDF/COTIZACION' . $valorVenta . '.pdf', 'F');
+        $pdf->Output(getcwd() . '/PDF/COTIZACION' . $valorVenta . '.pdf', 'I');
 //MUESTRA ARCHIVO EN OTRA VENTANA	
-        $pdf->Output(getcwd() . '/PDF/COTIZACION' . $valorVenta . '.pdf', 'FI');
+        //$pdf->Output(getcwd() . '/PDF/COTIZACION' . $valorVenta . '.pdf', 'FI');
     }
 
 }

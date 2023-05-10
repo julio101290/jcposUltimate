@@ -11,9 +11,13 @@ if (!$_SESSION["iniciarSesion"]) {
 if (isset($_POST["LEERTABLADESCUENTOSPORUSUARIO"])) {
 
 
+
+
     $idDescuento = $_POST["idDescuento"];
     $usuariosDescuento = ModeloDescuentos::mdlDescuentosPorUsuario($idDescuento);
     
+    
+
  
     if (count($usuariosDescuento) == 0) {
 

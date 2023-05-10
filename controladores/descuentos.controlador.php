@@ -96,7 +96,7 @@ class ControladorDescuentos {
 
  static public function ctrMostrar($item, $valor){
 
-  $tabla = "descuentos "; 
+  $tabla = "descuentos"; 
 
   $respuesta = ModeloDescuentos::mdlMostrar($tabla, $item, $valor); 
 

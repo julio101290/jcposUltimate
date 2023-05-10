@@ -2,41 +2,43 @@
 
 require_once "conexion.php";
 
-Class ModeloDescuentos {
+class ModeloDescuentos
+{
     /* =============================================
-      MOSTRAR DESCUENTOS
-      ============================================= */
+    MOSTRAR DESCUENTOS
+    ============================================= */
 
-    Static Public Function mdlMostrar($tabla, $item, $valor) {
+    static public function mdlMostrar($tabla, $item, $valor)
+    {
 
-        If ($item != Null) {
+        if ($item != Null) {
 
-            $stmt = Conexion:: conectar()->prepare("Select id
+            $stmt = Conexion::conectar()->prepare("Select id
 ,descripcion
 ,porcentaje
            From descuentos a WHERE $item =:$item ");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
-            Try {
+            try {
                 $stmt->execute();
 
-                Return $stmt->fetch();
-            } Catch (PDOException $e) {
+                return $stmt->fetch();
+            } catch (PDOException $e) {
 
                 $arr = $stmt->errorInfo();
                 $arr[3] = " Error ";
 
-                If ($e->getMessage() == 23000) {
+                if ($e->getMessage() == 23000) {
                     $mensaje = " El registro esta duplicado, Favor de checar el numero de nomina ";
-                    Return $mensaje;
-                } Else {
-                    Return $arr[2];
+                    return $mensaje;
+                } else {
+                    return $arr[2];
                 }
             }
-        } Else {
+        } else {
 
-            $stmt = Conexion:: conectar()->prepare("Select * 
+            $stmt = Conexion::conectar()->prepare("Select * 
 
            
 
@@ -44,7 +46,7 @@ Class ModeloDescuentos {
 
             $stmt->execute();
 
-            Return $stmt->fetchAll();
+            return $stmt->fetchAll();
         }
 
 
@@ -54,12 +56,13 @@ Class ModeloDescuentos {
     }
 
     /* ==================================================================
-      REGISTRO
-      ==================================================================== */
+    REGISTRO
+    ==================================================================== */
 
-    Static Public Function mdlIngresar($tabla, $datos) {
+    static public function mdlIngresar($tabla, $datos)
+    {
 
-        $stmt = Conexion:: conectar()->prepare("INSERT INTO descuentos(descripcion
+        $stmt = Conexion::conectar()->prepare("INSERT INTO descuentos(descripcion
 ,porcentaje
 
         
@@ -72,37 +75,38 @@ Class ModeloDescuentos {
         $stmt->bindParam(":descripcion", $datos["nuevoDescripcion"], PDO::PARAM_STR);
         $stmt->bindParam(":porcentaje", $datos["nuevoPorcentaje"], PDO::PARAM_STR);
 
-        If ($stmt->execute()) {
+        if ($stmt->execute()) {
 
-            Return "ok";
-        } Else {
+            return "ok";
+        } else {
 
             $arr = $stmt->errorInfo();
             $arr[3] = " Error ";
-            Return $arr[2];
+            return $arr[2];
         }
         $stmt->close();
         $stmt = Null;
     }
 
     /* ==================================================================
-      EDITAR
-      ================================================================== */
+    EDITAR
+    ================================================================== */
 
-    Static Public Function mdlEditar($tabla, $datos) {
+    static public function mdlEditar($tabla, $datos)
+    {
 
-        $stmt = Conexion:: conectar()->prepare(" UPDATE $tabla SET descripcion= :descripcion,porcentaje= :porcentaje 
+        $stmt = Conexion::conectar()->prepare(" UPDATE $tabla SET descripcion= :descripcion,porcentaje= :porcentaje 
                                                                    WHERE id =:id  ");
 
         $stmt->bindParam(":id", $datos["editarId"], PDO::PARAM_STR);
         $stmt->bindParam(":descripcion", $datos["editarDescripcion"], PDO::PARAM_STR);
         $stmt->bindParam(":porcentaje", $datos["editarPorcentaje"], PDO::PARAM_STR);
 
-        If ($stmt->execute()) {
+        if ($stmt->execute()) {
 
-            Return "ok";
-        } Else {
-            Return "Error";
+            return "ok";
+        } else {
+            return "Error";
         }
         $stmt->close();
 
@@ -110,32 +114,34 @@ Class ModeloDescuentos {
     }
 
     /* ===================================================================
-      BORRAR USUARIO
-      =================================================================== */
+    BORRAR USUARIO
+    =================================================================== */
 
-    Static Public Function mdlBorrar($tabla, $datos) {
-        $stmt = Conexion:: conectar()->prepare(" DELETE From descuentos WHERE id =:id ");
+    static public function mdlBorrar($tabla, $datos)
+    {
+        $stmt = Conexion::conectar()->prepare(" DELETE From descuentos WHERE id =:id ");
 
         $stmt->bindParam(":id", $datos, PDO::PARAM_INT);
 
-        If ($stmt->execute()) {
+        if ($stmt->execute()) {
 
-            Return "ok";
-        } Else {
-            Return "Error";
+            return "ok";
+        } else {
+            return "Error";
         }
         $stmt->close();
         $stmt = Null;
     }
 
-    public static function mdlMostrarDescuentosPorUsuario($idUsuario) {
+    public static function mdlMostrarDescuentosPorUsuario($idUsuario)
+    {
 
 
         $query = "select a.id
                         ,a.descripcion
                         ,a.porcentaje
                     from descuentos a
-                        , descuentosPorUsuario b
+                        , descuentos_por_usuario b
                     where a.id = b.idDescuento
                         and b.idUsuario =:idUsuario";
 
@@ -154,13 +160,14 @@ Class ModeloDescuentos {
     }
 
 
-public static function mdlDescuentosPorUsuario($idDescuento) {
+    public static function mdlDescuentosPorUsuario($idDescuento)
+    {
 
 
-$query = "select a.id as idUsuario 
+        $query = "select a.id as idUsuario 
                         , a.usuario
                         , (select descripcion from descuentos where id = :idDescuento2) as descripcion
-                        , ifnull((select b.estado from descuentosPorUsuario b 
+                        , ifnull((select b.estado from descuentos_por_usuario b 
                                   where a.id=b.idUsuario
                                            and b.idDescuento = :idDescuento
                                            and estado ='SI'
@@ -168,110 +175,113 @@ $query = "select a.id as idUsuario
 
                    from usuarios a;";
 
-$con = Conexion::conectar()->prepare($query);
+        $con = Conexion::conectar()->prepare($query);
 
-$con->bindParam(":idDescuento", $idDescuento, PDO::PARAM_STR);
-$con->bindParam(":idDescuento2", $idDescuento, PDO::PARAM_STR);
+        $con->bindParam(":idDescuento", $idDescuento, PDO::PARAM_STR);
+        $con->bindParam(":idDescuento2", $idDescuento, PDO::PARAM_STR);
 
-try {
+        try {
 
-$con->execute();
+            $con->execute();
 
-return $con->fetchAll();
-} catch (PDOException $ex) {
+            return $con->fetchAll();
+        } catch (PDOException $ex) {
 
-return $ex->getMessage();
-}
-}
+            return $ex->getMessage();
+        }
+    }
 
-public static function mdlInsertarDescuentoUsuario($datos) {
+    public static function mdlInsertarDescuentoUsuario($datos)
+    {
 
 
-$query = "INSERT INTO `descuentosPorUsuario` ( `idUsuario`
+        $query = "INSERT INTO `descuentos_por_usuario` ( `idUsuario`
                                                     , `idDescuento`
                                                     , `estado`) 
                                                     VALUES (:idUsuario
                                                     , :idDescuento
                                                     , :estado);";
 
-$con = Conexion::conectar()->prepare($query);
+        $con = Conexion::conectar()->prepare($query);
 
-$con->bindParam(":idUsuario", $datos["idUsuario"], PDO::PARAM_INT);
-$con->bindParam(":idDescuento", $datos["idDescuento"], PDO::PARAM_INT);
-$con->bindParam(":estado", $datos["estado"], PDO::PARAM_STR);
+        $con->bindParam(":idUsuario", $datos["idUsuario"], PDO::PARAM_INT);
+        $con->bindParam(":idDescuento", $datos["idDescuento"], PDO::PARAM_INT);
+        $con->bindParam(":estado", $datos["estado"], PDO::PARAM_STR);
 
-try {
+        try {
 
-$con->execute();
+            $con->execute();
 
-return "ok";
-} catch (PDOException $ex) {
+            return "ok";
+        } catch (PDOException $ex) {
 
-return $ex->getMessage();
-}
-}
+            return $ex->getMessage();
+        }
+    }
 
-/**
- * Actualiza Descuento por usuario
- *
- */
-public static function mdlActualizarDescuentoUsuario($datos) {
+    /**
+     * Actualiza Descuento por usuario
+     *
+     */
+    public static function mdlActualizarDescuentoUsuario($datos)
+    {
 
-$query = "UPDATE
-                    descuentosPorUsuario
+        $query = "UPDATE
+                    descuentos_por_usuario
                 SET
                     estado = :estado
                 WHERE
                     idUsuario = :idUsuario
                     AND idDescuento = :idDescuento";
 
-$con = Conexion::conectar()->prepare($query);
+        $con = Conexion::conectar()->prepare($query);
 
-$con->bindParam(":estado", $datos["estado"], PDO::PARAM_STR);
-$con->bindParam(":idUsuario", $datos["idUsuario"], PDO::PARAM_STR);
-$con->bindParam(":idDescuento", $datos["idDescuento"], PDO::PARAM_STR);
+        $con->bindParam(":estado", $datos["estado"], PDO::PARAM_STR);
+        $con->bindParam(":idUsuario", $datos["idUsuario"], PDO::PARAM_STR);
+        $con->bindParam(":idDescuento", $datos["idDescuento"], PDO::PARAM_STR);
 
-try {
+        try {
 
-$con->execute();
-return "ok";
-} catch (PDOException $ex) {
+            $con->execute();
+            return "ok";
+        } catch (PDOException $ex) {
 
-return $ex->getMessage();
-}
-}
+            return $ex->getMessage();
+        }
+    }
 
-/**
- * DESCUENTOS POR USUARIOS
- */
-public static function mdlMostrarUsuariosPorDescuento($idUsuario, $idDescuento) {
+    /**
+     * DESCUENTOS POR USUARIOS
+     */
+    public static function mdlMostrarUsuariosPorDescuento($idUsuario, $idDescuento)
+    {
 
-$query = "SELECT
+        $query = "SELECT
                     id
                     ,idDescuento
                     ,idUsuario
                     ,estado
                 FROM
-                    descuentosPorUsuario
+                    descuentos_por_usuario
                 WHERE
                     idUsuario = :idUsuario
                     AND idDescuento = :idDescuento";
 
-$con = Conexion::conectar()->prepare($query);
+        $con = Conexion::conectar()->prepare($query);
 
-$con->bindParam(":idUsuario", $idUsuario, PDO::PARAM_STR);
-$con->bindParam(":idDescuento", $idDescuento, PDO::PARAM_STR);
+        $con->bindParam(":idUsuario", $idUsuario, PDO::PARAM_STR);
+        $con->bindParam(":idDescuento", $idDescuento, PDO::PARAM_STR);
 
-try {
+        try {
 
-$con->execute();
+            $con->execute();
 
-return $con->fetchAll();
-} catch (PDOException $ex) {
+            return $con->fetchAll();
+        } catch (PDOException $ex) {
 
 
-return $ex->getMessage();
-}
-}
+            return $ex->getMessage();
+        }
+    }
 
 }

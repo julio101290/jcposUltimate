@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
+/*
 if(file_exists("../../configuracion.php")){
     
    
@@ -32,7 +32,7 @@ if(file_exists("../../configuracion.php")){
         
     
 }
-
+*/
 
 
 // CONEXIÓN BASE DE DATOS

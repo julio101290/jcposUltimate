@@ -1618,7 +1618,7 @@ $(".modal-footer").on("click", ".btnGuardarVentaAjax", function(){
               }).then(function(result){
               if (result.value) {
 
-                window.location = "ventas";
+               // window.location = "ventas";
 
               }
             })

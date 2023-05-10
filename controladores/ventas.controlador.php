@@ -1,5 +1,5 @@
 <?php
-
+include_once "../configuracion.php";
 class ControladorVentas {
     /* =============================================
       MOSTRAR ULTIMO FOLIO
@@ -79,7 +79,7 @@ class ControladorVentas {
                 return;
             }
 
-
+           
 
 
             $listaProductos = json_decode($_POST["listaProductos"], true);
@@ -179,6 +179,8 @@ class ControladorVentas {
 
             $tabla = "ventas";
 
+           
+
             $datos = array("id_vendedor" => $_POST["idVendedor"],
                 "id_cliente" => $_POST["seleccionarCliente"],
                 "codigo" => $_POST["nuevaVenta"],
@@ -198,7 +200,11 @@ class ControladorVentas {
                 "idCaja" => esCero($_POST["nuevoCaja"]),
                 "metodo_pago" => $_POST["listaMetodoPago"]);
 
+              
+
             $respuesta = ModeloVentas::mdlIngresarVenta($tabla, $datos);
+
+            
 
             $datosVentaGuardada = ModeloVentas::mdlMostrarVentas("ventas", "UUID", $_POST["UUID"]);
 
@@ -221,6 +227,8 @@ class ControladorVentas {
                 $guardarDetalle = modeloVentasDetalle::mdlInsertar($datosDetalle);
 
                 if ($guardarDetalle != "ok") {
+
+                    echo $guardarDetalle."Hola";
 
                     $eliminaVenta = ModeloVentas::mdlEliminarVenta("ventas", $datosVentaGuardada["id"]);
                     $eliminaVentaDetalle = modeloVentasDetalle::mdlEliminar($datosVentaGuardada["id"]);
@@ -1117,6 +1125,9 @@ class ControladorVentas {
 
 if (isset($_POST["nuevaVenta"]) && $_POST["TipoVenta"] == "VEN") {
     session_start();
+
+
+   // include_once "../configuracion.php";
     require_once "../modelos/ventas.modelo.php";
     require_once "../modelos/productos.modelo.php";
     require_once "../modelos/clientes.modelo.php";
@@ -1124,6 +1135,8 @@ if (isset($_POST["nuevaVenta"]) && $_POST["TipoVenta"] == "VEN") {
     require_once "../controladores/utilerias.controlador.php";
     require_once "../modelos/bitacora.modelo.php";
     require_once "../modelos/ventasDetalle.modelo.php";
+
+    
 
     $guardarVenta = new ControladorVentas();
     $guardarVenta->ctrCrearVenta();

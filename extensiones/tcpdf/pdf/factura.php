@@ -354,7 +354,7 @@ EOF;
 //$pdf->Output('factura.pdf', 'D');
 
 
-        $pdf->Output(getcwd() . '/PDF/factura' . $valorVenta . '.pdf', 'FI');
+        $pdf->Output(getcwd() . '/PDF/factura' . $valorVenta . '.pdf', 'I');
     }
 
 }
