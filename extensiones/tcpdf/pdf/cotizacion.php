@@ -1,6 +1,7 @@
 <?php
 
 //ini_set('display_errors', 1);
+require_once "../../../configuracion.php";
 require_once "../../../controladores/ventas.controlador.php";
 require_once "../../../modelos/ventas.modelo.php";
 
