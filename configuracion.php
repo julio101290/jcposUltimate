@@ -18,27 +18,31 @@
  */
 
 /*
-if(file_exists("../../configuracion.php")){
-    
-   
-    include_once "../../configuracion.php";
-    
-    
-    if(defined('BD_HOST')){
-       
-        return;
-        
-    }
-        
-    
-}
-*/
+  if(file_exists("../../configuracion.php")){
 
+
+  include_once "../../configuracion.php";
+
+
+  if(defined('BD_HOST')){
+
+  return;
+
+  }
+
+
+  }
+ */
 
 // CONEXIÓN BASE DE DATOS
 CONST BD_HOST = "127.0.0.1";
-CONST BD_PUERTO= "3306";
-CONST BD_NOMBRE= "pos";
+CONST BD_PUERTO = "3306";
+CONST BD_NOMBRE = "pos";
 CONST BD_USUARIO = "root";
 CONST BD_CONTRA = "";
 CONST DEBUG = true;
+CONST MOSTRARWARNINGS = false;
+
+if (!MOSTRARWARNINGS) {
+    error_reporting(0);
+}
