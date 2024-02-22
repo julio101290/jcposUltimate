@@ -1258,6 +1258,12 @@ MODAL AGREGAR CLIENTE
 
 </div>
 
+<?php
+
+include_once 'ventasModulos/descuentos.php'
+
+?>
+
 <script type="text/javascript">
 
 
