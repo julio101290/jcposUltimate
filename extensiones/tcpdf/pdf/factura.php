@@ -20,6 +20,10 @@ require_once "../../../modelos/ventasDetalle.modelo.php";
 require_once "../../../controladores/empresa.controlador.php";
 require_once "../../../modelos/empresa.modelo.php";
 
+require_once "../../../extensiones/vendor/autoload.php";
+
+
+
 class imprimirFactura {
 
     public $codigo;
@@ -36,9 +40,9 @@ class imprimirFactura {
         $codigo = $respuestaVenta["codigo"];
         $fecha = substr($respuestaVenta["fecha"], 0, -8);
 
-        $producto = modeloVentasDetalle::mdlMostrar($respuestaVenta["id"]);
+        $productos = modeloVentasDetalle::mdlMostrar($respuestaVenta["id"]);
 
-        if (count($producto) == 0) {
+        if (count($productos) == 0) {
             $productos = json_decode($respuestaVenta["productos"], true);
         }
 
@@ -84,7 +88,7 @@ class imprimirFactura {
 
 
 
-        require_once('tcpdf_include.php');
+       // require_once('tcpdf_include.php');
 
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 

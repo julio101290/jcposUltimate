@@ -1,48 +1,46 @@
 <?php
 
-class ControladorEmpresa{
+class ControladorEmpresa {
+    /* =============================================
+      MOSTRAR EMPRESA
+      ============================================= */
 
-	/*=============================================
-	MOSTRAR EMPRESA
-	=============================================*/
+    static public function ctrMostrarEmpresas($item, $valor) {
 
-	static public function ctrMostrarEmpresas($item, $valor){
+        $tabla = "datosempresa";
+        $item = null;
+        $valor = null;
+        $respuesta = ModeloEmpresas::mdlMostrarEmpresa($tabla, $item, $valor);
 
-		$tabla = "datosempresa";
-		$item = null;
-		$valor=null;
-		$respuesta = ModeloEmpresas::mdlMostrarEmpresa($tabla, $item, $valor);
+        return $respuesta;
+    }
 
-		return $respuesta;
-	}
+    /* =============================================
+      EDITAR EMPRESA
+      ============================================= */
 
-	/*=============================================
-	EDITAR EMPRESA
-	=============================================*/
+    static public function ctrEditarEmpresa() {
 
-	static public function ctrEditarEmpresa(){
+        if (isset($_POST["editarNombreEmpresa"])) {
 
-		if(isset($_POST["editarNombreEmpresa"])){
+            if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombreEmpresa"])) {
 
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombreEmpresa"])){
+                $tabla = "datosempresa";
 
-				$tabla = "datosempresa";
+                $datos = array("nombreEmpresa" => $_POST["editarNombreEmpresa"],
+                    "DireccionEmpresa" => $_POST["editarDireccionEmpresa"],
+                    "RFC" => $_POST["editarRFC"],
+                    "telefonoEmpresa" => $_POST["editarTelefonoEmpresa"],
+                    "diasEntrega" => $_POST["editarDiasEntrega"],
+                    "caja" => $_POST["caja"],
+                    "correoElectronicoEmpresa" => $_POST["editarCorreoElectronicoEmpresa"]
+                );
 
-				$datos = array("nombreEmpresa" => $_POST["editarNombreEmpresa"],
-							   "DireccionEmpresa" => $_POST["editarDireccionEmpresa"],
-							   "RFC" => $_POST["editarRFC"],
-							   "telefonoEmpresa" => $_POST["editarTelefonoEmpresa"],
-							   "diasEntrega" => $_POST["editarDiasEntrega"],
-								 "caja" => $_POST["caja"],
-							   "correoElectronicoEmpresa" => $_POST["editarCorreoElectronicoEmpresa"]
+                $respuesta = ModeloEmpresas::mdlEditarEmpresa($tabla, $datos);
 
-							 	);
+                if ($respuesta == "ok") {
 
-				$respuesta = ModeloEmpresas::mdlEditarEmpresa($tabla, $datos);
-
-				if($respuesta == "ok"){
-
-					echo'<script>
+                    echo'<script>
 
 					swal({
 						  type: "success",
@@ -58,13 +56,10 @@ class ControladorEmpresa{
 								})
 
 					</script>';
+                }
+            } else {
 
-				}
-
-
-			}else{
-
-				echo'<script>
+                echo'<script>
 
 					swal({
 						  type: "error",
@@ -80,21 +75,14 @@ class ControladorEmpresa{
 						})
 
 			  	</script>';
-
-			}
-
-		}
-
-	}
+            }
+        }
+    }
 }
-
-
-
 
 if (isset($_POST["GUARDAREMPRESA"])) {
     error_reporting(0);
     include_once '../modelos/empresas.modelo.php';
-    
 
     if ($_POST["id"] > 0) {
 
@@ -166,9 +154,9 @@ if (isset($_POST["GUARDAREMPRESA"])) {
 
             $empresa->logo = null;
         }
-        
-        
-                if (isset($_FILES["archivoKey"]["tmp_name"]) && $_FILES["archivoKey"]["tmp_name"] != "") {
+
+
+        if (isset($_FILES["archivoKey"]["tmp_name"]) && $_FILES["archivoKey"]["tmp_name"] != "") {
 
             $empresa->archivoKey = fopen($_FILES['archivoKey']['tmp_name'], "rb");
         } else {
@@ -183,9 +171,9 @@ if (isset($_POST["GUARDAREMPRESA"])) {
 
             $empresa->certificado = null;
         }
-        
-        
-        
+
+
+
         $empresa->razonSocial = $_POST["razonSocial"];
         $empresa->regimenFiscal = $_POST["regimenFiscal"];
 
