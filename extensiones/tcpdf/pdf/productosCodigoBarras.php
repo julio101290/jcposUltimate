@@ -1,5 +1,7 @@
 <?php
 
+require_once "../../../vendor/autoload.php";
+
 class impimirCodigoBarras {
 
     public $idProducto;
@@ -14,9 +16,6 @@ class impimirCodigoBarras {
 
         $idProducto = $this->idProducto;
 
-//REQUERIMOS LA CLASE TCPDF
-
-        require_once('tcpdf_include.php');
 
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
@@ -51,7 +50,6 @@ class impimirCodigoBarras {
 //$pdf->Output('factura.pdf', 'D');
         $pdf->Output('codigoBarrasCliente.pdf');
     }
-
 }
 
 $codigoBarras = new impimirCodigoBarras();

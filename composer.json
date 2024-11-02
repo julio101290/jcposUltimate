@@ -1,0 +1,25 @@
+{
+    "name": "julio101290/jcposUltimate",
+    "description": "Punto de venta básico con control de pagos",
+    "keywords": [
+        "PHP",
+        "tcpdf",
+        "Punto de venta",
+        "Control de pagos",
+        "Cartera"
+    ],
+    "type": "project",
+    "homepage": "https://cesarsystems.com.mx/manual-sistema-de-punto-de-venta-jcpos2021",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Julio Cesar Leyva Rodriguez",
+            "email": "juliocesarleyvarodriguez@hotmail.com"
+        }
+    ]
+    ,"require": {
+        "mike42/escpos-php": "^2.0",
+        "almasaeed2010/adminlte": "~3.2",
+        "tecnickcom/tcpdf": "^6.6"
+    }
+}

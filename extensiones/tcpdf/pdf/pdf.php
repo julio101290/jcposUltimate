@@ -1,5 +1,6 @@
 <?php
 
+require_once "../../../vendor/autoload.php";
 //============================================================+
 // File name   : example_001.php
 // Begin       : 2008-03-04
@@ -25,8 +26,6 @@
  * @since 2008-03-04
  */
 
-// Include the main TCPDF library (search for installation path).
-require_once('tcpdf_include.php');
 
 // create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);

@@ -11,6 +11,7 @@ require_once "../../../modelos/usuarios.modelo.php";
 
 require_once "../../../controladores/productos.controlador.php";
 require_once "../../../modelos/productos.modelo.php";
+require_once "../../../vendor/autoload.php";
 
 class imprimirFactura{
 
@@ -48,9 +49,6 @@ $valorVendedor = $respuestaVenta["id_vendedor"];
 
 $respuestaVendedor = ControladorUsuarios::ctrMostrarUsuarios($itemVendedor, $valorVendedor);
 
-//REQUERIMOS LA CLASE TCPDF
-
-require_once('tcpdf_include.php');
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 

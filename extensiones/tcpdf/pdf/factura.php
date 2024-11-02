@@ -20,7 +20,7 @@ require_once "../../../modelos/ventasDetalle.modelo.php";
 require_once "../../../controladores/empresa.controlador.php";
 require_once "../../../modelos/empresa.modelo.php";
 
-require_once "../../../extensiones/vendor/autoload.php";
+require_once "../../../vendor/autoload.php";
 
 
 

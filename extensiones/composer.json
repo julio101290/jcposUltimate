@@ -1,7 +1,0 @@
-{
-    "require": {
-        "mike42/escpos-php": "^2.0",
-        "almasaeed2010/adminlte": "~3.2",
-        "tecnickcom/tcpdf": "^6.6"
-    }
-}

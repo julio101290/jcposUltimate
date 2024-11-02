@@ -17,7 +17,7 @@ require_once "../../../modelos/usuarios.modelo.php";
 
 require_once "../../../controladores/empresa.controlador.php";
 require_once "../../../modelos/empresa.modelo.php";
-
+require_once "../../../vendor/autoload.php";
 
 class imprimirPago{
 
@@ -77,9 +77,7 @@ $RFCEmpresa=$DatosEmpresa[0]["RFC"];
 $TelefonoEmpresa=$DatosEmpresa[0]["Telefono"];
 $CorreoElectronicoEmpresa=$DatosEmpresa[0]["CorreoElectronico"];
 
-//REQUERIMOS LA CLASE TCPDF
 
-require_once('tcpdf_include.php');
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 

@@ -20,6 +20,7 @@ require_once "../../../modelos/ventasDetalle.modelo.php";
 
 require_once "../../../controladores/empresa.controlador.php";
 require_once "../../../modelos/empresa.modelo.php";
+require_once "../../../vendor/autoload.php";
 
 class imprimirFactura {
 
@@ -93,8 +94,6 @@ class imprimirFactura {
 //REQUERIMOS LA CLASE TCPDF
 
 
-
-        require_once('tcpdf_include.php');
 
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
         $pdf->setPrintHeader(false);
@@ -379,7 +378,6 @@ EOF;
 //MUESTRA ARCHIVO EN OTRA VENTANA	
         //$pdf->Output(getcwd() . '/PDF/COTIZACION' . $valorVenta . '.pdf', 'FI');
     }
-
 }
 
 $factura = new imprimirFactura();
