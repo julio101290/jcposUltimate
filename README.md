@@ -19,7 +19,7 @@ JCPOS Ultimate es un sistema de punto de venta gratuito y de código abierto dis
 -   Descargue el código fuente del repositorio de JCPOS Ultimate en GitHub.
 
 ## Instalación Via Composer
-	composer create-project julio101290/jcposUltimate
+	composer create-project julio101290/jcposultimate
 
 ## Pasos de instalación
 
