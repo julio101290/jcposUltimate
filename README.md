@@ -40,6 +40,10 @@ JCPOS Ultimate es un sistema de punto de venta gratuito y de código abierto dis
 
 10.  Una vez que haya iniciado sesión, puede configurar el sistema de acuerdo con sus necesidades específicas. Asegúrese de cambiar la contraseña de administrador predeterminada por razones de seguridad.
 
+11. En la consola de comandos CMD o Terminal si usan linux pueden iniciar el programa con el siguiente comando
+	php.exe -S localhost:8070
+
+
 ¡Felicidades! Ha instalado correctamente JCPOS Ultimate en su computadora local. Ahora puede usarlo para administrar su negocio y realizar ventas.
 
 https://www.youtube.com/watch?v=glFpzKEBN9U&list=PLILw_UuW19gpNvXiJO61x26AqkzGvQ7q1

@@ -1,30 +1,21 @@
 <?php return array(
     'root' => array(
-        'name' => '__root__',
+        'name' => 'julio101290/jcposultimate',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '79cbba0043870ec4e3c00fe2e94fc89483a3f71a',
-        'type' => 'library',
+        'reference' => '09f72ad133817a10239c7fcc612cebeb9c88fe7a',
+        'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
-        '__root__' => array(
+        'julio101290/jcposultimate' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '79cbba0043870ec4e3c00fe2e94fc89483a3f71a',
-            'type' => 'library',
+            'reference' => '09f72ad133817a10239c7fcc612cebeb9c88fe7a',
+            'type' => 'project',
             'install_path' => __DIR__ . '/../../',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'almasaeed2010/adminlte' => array(
-            'pretty_version' => 'v3.2.0',
-            'version' => '3.2.0.0',
-            'reference' => 'bd4d9c72931f1dd28601b6bfb387554a381ad540',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../almasaeed2010/adminlte',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
