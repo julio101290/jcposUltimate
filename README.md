@@ -1,3 +1,5 @@
+[![Latest Stable Version](https://poser.okvpn.org/julio101290/jcposultimate/v/stable)](https://packagist.org/packages/julio101290/jcposultimate) [![Total Downloads](https://poser.okvpn.org/julio101290/jcposultimate/downloads)](https://packagist.org/packages/julio101290/jcposultimate) [![Latest Unstable Version](https://poser.okvpn.org/julio101290/jcposultimate/v/unstable)](https://packagist.org/packages/julio101290/jcposultimate) [![License](https://poser.okvpn.org/julio101290/jcposultimate/license)](https://packagist.org/packages/julio101290/jcposultimate)
+
 # JCPOS Ultimate
 ![image](https://thumbs.odycdn.com/5e3aeb0c2b4ccfbca40039287f186ada.webp)
 
