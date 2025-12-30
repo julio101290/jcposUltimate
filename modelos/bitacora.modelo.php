@@ -2,117 +2,118 @@
 
 require_once "conexion.php";
 
-class ModeloBitacora{
+class ModeloBitacora {
+    /* =============================================
+      MOSTRAR BITACORA
+      ============================================= */
 
-	/*=============================================
-	MOSTRAR BITACORA
-	=============================================*/
+    static public function mdlMostrarBitacora($tabla, $request, $noLimit) {
+        $db = Conexion::conectar();
 
-	static public function mdlMostrarBitacora($tabla, $valor,$noLimit){
-		if(isset($valor['start']) ){
-			
-			if($noLimit=="n"){
-				$limit="LIMIT ".$valor['start']."  ,".$valor['length'];
-			}
-			
-			else{
-				$limit="";
-			}
+        /* ===============================
+          COLUMNAS PERMITIDAS (ORDEN)
+          =============================== */
+        $columnas = [
+            0 => 'descripcion',
+            1 => 'fecha',
+            2 => 'usuario'
+        ];
 
-		}
-		else{
-			$limit="";
-		}
+        /* ===============================
+          ORDER BY
+          =============================== */
+        $orderBy = "ORDER BY fecha DESC";
 
+        if (isset($request['order'][0])) {
+            $colIndex = (int) $request['order'][0]['column'];
+            $dir = $request['order'][0]['dir'] === 'asc' ? 'ASC' : 'DESC';
 
-	
+            if (isset($columnas[$colIndex])) {
+                $orderBy = "ORDER BY {$columnas[$colIndex]} $dir";
+            }
+        }
 
+        /* ===============================
+          LIMIT
+          =============================== */
+        $limit = "";
+        if ($noLimit === "n" && isset($request['start'], $request['length'])) {
+            $limit = "LIMIT :start, :length";
+        }
 
-		if(isset($valor['search'])){
-			$buscar=$valor['search']['value'];
-			$busquedaGeneral="and  ( 
-										id
-										like '%".$buscar."%'
+        /* ===============================
+          BUSQUEDA GLOBAL
+          =============================== */
+        $where = "WHERE 1=1";
 
-										or
+        if (!empty($request['search']['value'])) {
+            $where .= "
+            AND (
+                id LIKE :buscar
+                OR descripcion LIKE :buscar
+                OR fecha LIKE :buscar
+                OR usuario LIKE :buscar
+            )
+        ";
+        }
 
-										descripcion
-										like '%".$buscar."%'
+        /* ===============================
+          QUERY
+          =============================== */
+        if ($noLimit === "s") {
 
-										or 
+            $sql = "
+            SELECT COUNT(id) AS contador
+            FROM $tabla
+            $where
+        ";
 
-										fecha
-										like '%".$buscar."%'
+            $stmt = $db->prepare($sql);
+        } else {
 
-										or 
-										usuario
-										like '%".$buscar."%'
+            $sql = "
+            SELECT
+                descripcion,
+                fecha,
+                usuario
+            FROM $tabla
+            $where
+            $orderBy
+            $limit
+        ";
 
-									
-										
-									)
+            $stmt = $db->prepare($sql);
+        }
 
-									";
-		}
-		else{
-			$busquedaGeneral="";
-		}
+        /* ===============================
+          BINDS
+          =============================== */
+        if (!empty($request['search']['value'])) {
+            $stmt->bindValue(':buscar', '%' . $request['search']['value'] . '%');
+        }
 
+        if ($noLimit === "n" && isset($request['start'], $request['length'])) {
+            $stmt->bindValue(':start', (int) $request['start'], PDO::PARAM_INT);
+            $stmt->bindValue(':length', (int) $request['length'], PDO::PARAM_INT);
+        }
 
-		$col =array(
-		    0   =>  '1',
-		    1   =>  '2',
-		    2   =>  '3',
+        /* ===============================
+          EJECUCIÓN
+          =============================== */
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
 
-			);
+        return $stmt->errorInfo();
+    }
 
-		$orderBy=" ORDER BY ".$col[$valor['order'][0]['column']]."   ".$valor['order'][0]['dir'];
+    /* =============================================
+      REGISTRO DE BITACORA
+      ============================================= */
 
+    static public function mdlIngresarBitacora($tabla, $datos) {
 
-
-		if($noLimit=="s"){
-			$stmt = Conexion::conectar()->prepare("select count(id) as contador
-
-														from bitacora 
-														where 'a'='a' $busquedaGeneral
-														"
-													);
-		}
-		else{
-			$stmt = Conexion::conectar()->prepare("select id
-														,descripcion
-														,fecha
-														,usuario 
-
-														from bitacora 
-														where 1=1
-														".$busquedaGeneral."  ".$limit
-													);
-		}
-
-	
-		if($stmt->execute()){
-			return $stmt -> fetchAll();
-			$stmt -> close();
-
-			$stmt = null;
-
-		}
-		else{
-			$arr = $stmt ->errorInfo();
-			$arr[3]="ERROR";
-			return $arr[2];
-		}
-
-	}
-
-	/*=============================================
-	REGISTRO DE BITACORA
-	=============================================*/
-
-	static public function mdlIngresarBitacora($tabla, $datos){
-
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(
 			 descripcion
 			, usuario
 			) 
@@ -120,27 +121,20 @@ class ModeloBitacora{
 			, :usuario
 		)");
 
-		$stmt->bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
-		$stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
+        $stmt->bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
+        $stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
 
-		if($stmt->execute()){
+        if ($stmt->execute()) {
 
-			return "ok";
+            return "ok";
+        } else {
 
-		}else{
+            $arr = $stmt->errorInfo();
+            $arr[3] = "ERROR";
+            return $arr[2];
+        }
 
-			$arr = $stmt ->errorInfo();
-			$arr[3]="ERROR";
-			return $arr[2];
-		
-		
-		}
-
-		$stmt->close();
-		$stmt = null;
-
-	}
-
-	
-	
+        $stmt->close();
+        $stmt = null;
+    }
 }
