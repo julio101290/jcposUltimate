@@ -35,6 +35,8 @@ $UUID = $_GET["UUID"];
 
 $venta = ModeloVentas::mdlMostrarVentas("ventas", "UUID", $UUID);
 
+$descuentos = 0;
+
 $productos = json_decode($venta["productos"], true);
 ?>
 
@@ -75,6 +77,9 @@ $productos = json_decode($venta["productos"], true);
 
 <?php
 foreach ($productos as $key => $item) {
+    
+    $descuentos =  $descuentos + number_format($item["descuentoProducto"], 2);
+    
     echo '   
                  <tr>
                     <td class="cantidad">' . number_format($item["cantidad"], 2) . '</td>
@@ -88,6 +93,7 @@ foreach ($productos as $key => $item) {
             </table>
 
             <p class="derecha" style="font-size: 10px; font-weight: bold;">SUB TOTAL:$ <?php echo $venta["neto"]; ?> </p>
+             <p class="derecha" style="font-size: 10px; font-weight: bold;">DESCUENTO:$ <?php echo $descuentos ?> </p>
             <p class="derecha" style="font-size: 10px; font-weight: bold;">IVA:$ <?php echo $venta["impuesto"]; ?> </p>
             <p class="derecha" style="font-size: 10px; font-weight: bold;">TOTAL:$ <?php echo $venta["total"]; ?> </p>
             <p class="centrado">¡GRACIAS POR SU COMPRA!

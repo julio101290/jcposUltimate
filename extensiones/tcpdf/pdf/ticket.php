@@ -35,6 +35,8 @@ $neto = number_format($respuestaVenta["neto"],2);
 $impuesto = number_format($respuestaVenta["impuesto"],2);
 $total = number_format($respuestaVenta["total"],2);
 
+$descuentos = 0;
+
 //TRAEMOS LA INFORMACIÓN DEL CLIENTE
 
 $itemCliente = "id";
@@ -116,6 +118,8 @@ $valorUnitario = number_format($item["precio"], 2);
 
 $precioTotal = number_format($item["total"], 2);
 
+$descuentos = $descuentos + number_format($item["descuento"], 2);
+
 $bloque2 = <<<EOF
 
 <table style="font-size:9px;">
@@ -159,6 +163,17 @@ $bloque3 = <<<EOF
 
 		<td style="width:80px;">
 			$ $neto
+		</td>
+
+	</tr>
+        	<tr>
+	
+		<td style="width:80px;">
+			 IMPUESTO: 
+		</td>
+
+		<td style="width:80px;">
+			$ $descuento
 		</td>
 
 	</tr>

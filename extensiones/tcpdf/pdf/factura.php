@@ -22,8 +22,6 @@ require_once "../../../modelos/empresa.modelo.php";
 
 require_once "../../../vendor/autoload.php";
 
-
-
 class imprimirFactura {
 
     public $codigo;
@@ -50,6 +48,8 @@ class imprimirFactura {
         $impuesto = number_format($respuestaVenta["impuesto"], 2);
         $total = number_format($respuestaVenta["total"], 2);
         $metodoPago = $respuestaVenta["metodo_pago"];
+        
+        $descuentoTotal =  0;
 //TRAEMOS LA INFORMACIÓN DEL CLIENTE
 
         $itemCliente = "id";
@@ -73,22 +73,19 @@ class imprimirFactura {
         $RFCEmpresa = $DatosEmpresa[0]["RFC"];
         $TelefonoEmpresa = $DatosEmpresa[0]["Telefono"];
         $CorreoElectronicoEmpresa = $DatosEmpresa[0]["CorreoElectronico"];
-        
+
         $logo = "data:image/png;base64," . $DatosEmpresa[0]["logo"];
-        
+
         $img_base64_encoded = $logo;
         $imageContent = file_get_contents($img_base64_encoded);
         $path = tempnam(sys_get_temp_dir(), 'prefix');
 
-        file_put_contents ($path, $imageContent);
-        
-        $htmlLogo = '<td style="width:150px"><img src="'.$path.'"></td>';
+        file_put_contents($path, $imageContent);
+
+        $htmlLogo = '<td style="width:150px"><img src="' . $path . '"></td>';
 
 //REQUERIMOS LA CLASE TCPDF
-
-
-
-       // require_once('tcpdf_include.php');
+        // require_once('tcpdf_include.php');
 
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
@@ -214,18 +211,33 @@ EOF;
 
         $bloque3 = <<<EOF
 
-	<table style="font-size:10px; padding:5px 10px;">
+<table style="font-size:10px; padding:5px 10px; border-collapse:collapse;">
 
-		<tr>
-		
-		<td style="width: 260px; background-color:#2c3e50; padding: 4px 4px 4px; font-weight:bold;  color:white; text-align:center">Producto</td>
-		<td style="width: 80px; background-color:#2c3e50; padding: 4px 4px 4px; font-weight:bold;  color:white; text-align:center">Cantidad</td>
-		<td style="width: 100px; background-color:#2c3e50; padding: 4px 4px 4px; font-weight:bold;  color:white; text-align:center">Valor Unit.</td>
-		<td style="width: 100px; background-color:#2c3e50; padding: 4px 4px 4px; font-weight:bold;  color:white; text-align:center">Valor Total</td>
+    <tr>
+    
+        <td style="width:220px; background-color:#2c3e50; padding:3px; font-weight:bold; color:white; text-align:center; line-height:12px;">
+            Producto
+        </td>
 
-		</tr>
+        <td style="width:80px; background-color:#2c3e50; padding:3px; font-weight:bold; color:white; text-align:center; line-height:12px;">
+            Cantidad
+        </td>
 
-	</table>
+        <td style="width:100px; background-color:#2c3e50; padding:3px; font-weight:bold; color:white; text-align:center; line-height:12px;">
+            Valor Unit.
+        </td>
+
+        <td style="width:100px; background-color:#2c3e50; padding:3px; font-weight:bold; color:white; text-align:center; line-height:12px;">
+            Valor Total
+        </td>
+
+        <td style="width:40px; background-color:#2c3e50; padding:2px; font-weight:bold; color:white; text-align:center; white-space:nowrap; line-height:12px;">
+            %
+        </td>
+
+    </tr>
+
+</table>
 
 EOF;
 
@@ -233,57 +245,56 @@ EOF;
 
 // ---------------------------------------------------------
         $contador = 0;
-        foreach ($productos as $key => $item) {
+       foreach ($productos as $key => $item) {
 
-            $contador = $contador + 1;
-            $itemProducto = "descripcion";
-            $valorProducto = $item["descripcion"];
-            $orden = null;
+    $contador++;
 
-            if ($contador % 2 == 0) {
-                $clase = 'style=" background-color:#ecf0f1; padding: 3px 4px 3px; ';
-            } else {
-                $clase = 'style="background-color:white; padding: 3px 4px 3px; ';
-            }
+    if ($contador % 2 == 0) {
+        $clase = 'style="background-color:#ecf0f1; padding:3px; line-height:12px;"';
+    } else {
+        $clase = 'style="background-color:white; padding:3px; line-height:12px;"';
+    }
 
-            $respuestaProducto = ControladorProductos::ctrMostrarProductos($itemProducto, $valorProducto, $orden);
+    $precioUnitario = number_format($item["precio"], 2);
+    $precioTotal    = number_format($item["importeTotal"], 2);
+    $descuento      = rtrim(rtrim(number_format($item["descuento"], 2), '0'), '.');
+    
+    $descuentoTotal = $descuentoTotal + number_format($item["descuento"], 2);
 
-            $valorUnitario = number_format($respuestaProducto["precio_venta"], 2);
+    $bloque4 = <<<EOF
 
-            $precioTotal = number_format($item["total"], 2);
+                <table style="font-size:10px; padding:5px 10px; border-collapse:collapse;">
+                    <tr>
 
-            $bloque4 = <<<EOF
+                        <td $clase style="width:220px; text-align:center;">
+                            {$item['descripcion']}
+                        </td>
 
-	<table style="font-size:10px; padding:5px 10px;">
+                        <td $clase style="width:80px; text-align:center;">
+                            {$item['cantidad']}
+                        </td>
 
-		<tr>
-			
-			<td  $clase width:260px; text-align:center">
-				$item[descripcion]
-			</td>
+                        <td $clase style="width:100px; text-align:center;">$
+                            $precioUnitario
+                        </td>
 
-			<td $clase width:80px; text-align:center">
-				$item[cantidad]
-			</td>
+                        <td $clase style="width:100px; text-align:center;">$
+                            $precioTotal
+                        </td>
 
-			<td $clase width:100px; text-align:center">$ 
-				$item[precio]
-			</td>
+                        <td $clase style="width:40px; text-align:center; white-space:nowrap;">
+                            $descuento
+                        </td>
 
-			<td $clase width:100px; text-align:center">$ 
-				$precioTotal
-			</td>
+                    </tr>
+                </table>
 
+                EOF;
 
-		</tr>
-
-	</table>
+    $pdf->writeHTML($bloque4, false, false, false, false, '');
+}
 
 
-EOF;
-
-            $pdf->writeHTML($bloque4, false, false, false, false, '');
-        }
 
 // ---------------------------------------------------------
 
@@ -311,6 +322,20 @@ EOF;
 
 			<td style="border: 0px solid #666; color:#333; background-color:white; width:100px; text-align:center">
 				$ $neto
+			</td>
+
+		</tr>
+                
+                <tr>
+
+			<td style="border-right: 0px solid #666; color:#333; background-color:white; width:340px; text-align:center"></td>
+
+			<td style="border: 0px solid #666; background-color:white; width:100px; text-align:center">
+				Descuento:
+			</td>
+		
+			<td style="border: 0px solid #666; color:#333; background-color:white; width:100px; text-align:center">
+				$ $descuentoTotal
 			</td>
 
 		</tr>
@@ -361,7 +386,6 @@ EOF;
 
         $pdf->Output(getcwd() . '/PDF/factura' . $valorVenta . '.pdf', 'I');
     }
-
 }
 
 $factura = new imprimirFactura();
