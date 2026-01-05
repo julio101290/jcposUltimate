@@ -1277,14 +1277,14 @@ $(".abrirXML").click(function () {
 
 
 
-function tablaAdministrarVentas(fechaInicial1
-        , fechaFinal1
-        , tipoVenta1
-        , pendientePorCobrar1
-        , soloCobrado1
-        , cliente1
-        )
-{
+function tablaAdministrarVentas(
+    fechaInicial1,
+    fechaFinal1,
+    tipoVenta1,
+    pendientePorCobrar1,
+    soloCobrado1,
+    cliente1
+) {
 
     $('.AdministrarVentas').DataTable().destroy();
 
@@ -1294,12 +1294,14 @@ function tablaAdministrarVentas(fechaInicial1
         "serverSide": true,
         "deferRender": true,
         "orderCellsTop": true,
-        //"retrieve": true,
-        "pageLength": 5,
-        "lengthMenu": [5, 10, 25, 50, 100, 150, 200],
+
+        // 🔽 ORDEN POR DEFECTO: PRIMERA COLUMNA DESCENDENTE
+        "order": [[0, "desc"]],
+
+        "pageLength": 10,
+        "lengthMenu": [5, 10, 25, 50, 100, 150, 200, 500],
 
         "language": {
-
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",
             "sZeroRecords": "No se encontraron resultados",
@@ -1307,11 +1309,7 @@ function tablaAdministrarVentas(fechaInicial1
             "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
             "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0",
             "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix": "",
             "sSearch": "Buscar:",
-            "sUrl": "",
-            "sInfoThousands": ",",
-
             "sLoadingRecords": "Cargando...",
             "oPaginate": {
                 "sFirst": "Primero",
@@ -1323,161 +1321,73 @@ function tablaAdministrarVentas(fechaInicial1
                 "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
             }
-
         },
+
         "ajax": {
             url: "ajax/datatable-administrarVentas.ajax.php",
             type: "POST",
-
             data: {
-                fechaInicial: fechaInicial1
-                , fechaFinal: fechaFinal1
-                , tipoVenta: tipoVenta1
-                , pendientePorCobrar: pendientePorCobrar1
-                , soloCobrado: soloCobrado1
-                , cliente: cliente1
-            },
+                fechaInicial: fechaInicial1,
+                fechaFinal: fechaFinal1,
+                tipoVenta: tipoVenta1,
+                pendientePorCobrar: pendientePorCobrar1,
+                soloCobrado: soloCobrado1,
+                cliente: cliente1
+            }
         },
 
         "footerCallback": function (row, data, start, end, display) {
-            var api = this.api(), data;
 
-            // Remove the formatting to get integer data for summation
+            var api = this.api();
+
             var intVal = function (i) {
-                return typeof i === 'string' ?
-                        i.replace(/[\$,]/g, '') * 1 :
-                        typeof i === 'number' ?
-                        i : 0;
+                return typeof i === 'string'
+                    ? i.replace(/[\$,]/g, '') * 1
+                    : typeof i === 'number'
+                        ? i
+                        : 0;
             };
 
-            // Total Ventas
-            total = api
-                    .column(5)
-                    .data()
-                    .reduce(function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
-
             // NETO
-            pageNeto = api
-                    .column(4, {page: 'current'})
-                    .data()
-                    .reduce(function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
+            var pageNeto = api
+                .column(4, { page: 'current' })
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
 
+            // TOTAL
+            var pageTotal = api
+                .column(5, { page: 'current' })
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
 
-
-            // Total over this page
-            pageTotal = api
-                    .column(5, {page: 'current'})
-                    .data()
-                    .reduce(function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
-
-
-
-
-            // Total Pagado
-            totalPagado = api
-                    .column(6, {page: 'current'})
-                    .data()
-                    .reduce(function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
+            // TOTAL PAGADO
+            var totalPagado = api
+                .column(6, { page: 'current' })
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
 
             // SALDO
-            saldo = api
-                    .column(7, {page: 'current'})
-                    .data()
-                    .reduce(function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
+            var saldo = api
+                .column(7, { page: 'current' })
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
 
-
-            // Update footer
-
-            $(api.column(3).footer()).html(
-                    '<strong> TOTALES:</strong>'
-                    );
-
-            $(api.column(4).footer()).html(
-                    '<strong> ' + pageNeto.toFixed(2) + '</strong>'
-                    );
-
-
-            $(api.column(5).footer()).html(
-                    '<strong> ' + pageTotal.toFixed(2) + '</strong>'
-                    );
-
-
-            $(api.column(6).footer()).html(
-                    '<strong> ' + totalPagado.toFixed(2) + '</strong>'
-                    );
-
-            $(api.column(7).footer()).html(
-                    '<strong> ' + Number(saldo).toFixed(2) + '</strong>'
-                    );
+            // FOOTER
+            $(api.column(3).footer()).html('<strong>TOTALES:</strong>');
+            $(api.column(4).footer()).html('<strong>' + pageNeto.toFixed(2) + '</strong>');
+            $(api.column(5).footer()).html('<strong>' + pageTotal.toFixed(2) + '</strong>');
+            $(api.column(6).footer()).html('<strong>' + totalPagado.toFixed(2) + '</strong>');
+            $(api.column(7).footer()).html('<strong>' + saldo.toFixed(2) + '</strong>');
         }
     });
-
-
-    $("#AdministrarVentas thead tr:eq(1)").remove();
-
-
-    $('#AdministrarVentas thead tr').clone(true).appendTo('#AdministrarVentas thead');
-
-    $('#AdministrarVentas thead tr:eq(1) th').each(function (i) {
-        var title = $(this).text();
-        $(this).removeClass('sorting')
-        $(this).removeClass('sorting_asc')
-
-
-        if (title == "#"
-                || title == "Agregar o quitar tarjeta"
-                || title == "CodigoCliente"
-                || title == "Vendedor"
-                || title == "Cliente"
-                || title == "Neto"
-                || title == "Total"
-                || title == "Total Pagado"
-                || title == "Saldo"
-                || title == "Estado"
-                || title == "Entregado"
-                || title == "Acciones"
-                ) {
-            $(this).html('<input type="hidden" placeholder="Buscar por ' + title + '" />');
-        } else {
-            $(this).html('<input type="text" placeholder="Buscar por ' + title + '" id="' + title + '" name="' + title + '" />');
-        }
-
-
-
-        $('input', this).on('keyup change', function () {
-            if (dataTable.column(i).search() !== this.value) {
-                dataTable
-
-
-                        .column(i)
-                        .search(this.value)
-                        .draw();
-
-            }
-        });
-    });
-
-    var dataTable = $('#AdministrarVentas').DataTable({
-        orderCellsTop: true,
-        fixedHeader: true,
-        retrieve: true,
-        paging: false
-    });
-
-
-
-
-
 }
 
 
