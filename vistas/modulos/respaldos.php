@@ -1,5 +1,5 @@
 <?php
-if ("off" == "offf") {
+if ($_SESSION["respaldos"] == "off") {
 
     echo '<script>
 

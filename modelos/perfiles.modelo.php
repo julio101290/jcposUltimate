@@ -134,9 +134,13 @@ class ModeloPerfiles{
 
                                                                         ,(case when actualizar='on' then 'on' else 'off'
                                                                                          end ) as actualizar
+                                                                                         
+                                                                        ,(case when cajas='on' then 'on' else 'off'
+                                                                                         end ) as cajas
+                                                                        
+                                                                        ,(case when respaldos='on' then 'on' else 'off'
+                                                                                         end ) as respaldos
 
-																																				,(case when cajas='on' then 'on' else 'off'
-	                                                                                        end ) as cajas
 
 
 
@@ -272,8 +276,13 @@ class ModeloPerfiles{
                                                                     ,(case when actualizar='on' then 'on' else 'off'
                                                                                          end ) as actualizar
 
-																																	 ,(case when cajas='on' then 'on' else 'off'
-																																											end ) as cajas
+																																	 
+                                                                    ,(case when cajas='on' then 'on' else 'off'
+																																											
+                                                                     end ) as cajas
+                                                                     
+                                                                    ,(case when respaldos='on' then 'on' else 'off'
+                                                                                         end ) as respaldos
 
                                                      FROM
                                                      $tabla");
@@ -337,7 +346,7 @@ class ModeloPerfiles{
                                                                         ,costoProductos
                                                                         ,stock
                                                                         ,actualizar
-																																				,cajas
+									,respaldos																											,cajas
 
                                                                         )
                                                         VALUES (:descripcion
@@ -379,6 +388,7 @@ class ModeloPerfiles{
                                                                         ,:costoProductos
                                                                         ,:stock
                                                                         ,:actualizar
+                                                                        ,:respaldos
 																																				,:cajas
                                                                 )");
 
@@ -421,8 +431,9 @@ class ModeloPerfiles{
 		$stmt->bindParam(":eliminarPagos", $datos["eliminarPagos"], PDO::PARAM_STR);
 		$stmt->bindParam(":costoProductos", $datos["costoProductos"], PDO::PARAM_STR);
 		$stmt->bindParam(":stock", $datos["stock"], PDO::PARAM_STR);
-    $stmt->bindParam(":actualizar", $datos["actualizar"], PDO::PARAM_STR);
+                $stmt->bindParam(":actualizar", $datos["actualizar"], PDO::PARAM_STR);
 		$stmt->bindParam(":cajas", $datos["cajas"], PDO::PARAM_STR);
+                $stmt->bindParam(":respaldos", $datos["respaldos"], PDO::PARAM_STR);
 
 		if($stmt->execute()){
 
@@ -488,6 +499,7 @@ class ModeloPerfiles{
                                                                     ,costoProductos= :costoProductos
                                                                     ,stock= :stock
                                                                     ,actualizar= :actualizar
+                                                                    ,respaldos= :respaldos
 																																		,cajas= :cajas
                                                             WHERE perfil = :perfil"
                                                             );
@@ -532,8 +544,9 @@ class ModeloPerfiles{
 		$stmt->bindParam(":eliminarPagos", $datos["eliminarPagos"], PDO::PARAM_STR);
 		$stmt->bindParam(":costoProductos", $datos["costoProductos"], PDO::PARAM_STR);
 		$stmt->bindParam(":stock", $datos["stock"], PDO::PARAM_STR);
-    $stmt->bindParam(":actualizar", $datos["actualizar"], PDO::PARAM_STR);
+                $stmt->bindParam(":actualizar", $datos["actualizar"], PDO::PARAM_STR);
 		$stmt->bindParam(":cajas", $datos["cajas"], PDO::PARAM_STR);
+                $stmt->bindParam(":respaldos", $datos["respaldos"], PDO::PARAM_STR);
 
 		if($stmt -> execute()){
 

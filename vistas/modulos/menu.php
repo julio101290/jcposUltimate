@@ -339,7 +339,7 @@
                 }
 
 
-                if ("on" == "on") {
+                if ($_SESSION["respaldos"]== "on") {
                     echo '
 					 <li ' . strMenuActivo($_GET["ruta"], "respaldos") . '>
 

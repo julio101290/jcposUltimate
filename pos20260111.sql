@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 02-11-2024 a las 19:22:25
+-- Servidor: localhost
+-- Tiempo de generación: 11-01-2026 a las 20:00:25
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -40,7 +40,15 @@ CREATE TABLE `bitacora` (
 
 INSERT INTO `bitacora` (`id`, `descripcion`, `fecha`, `usuario`) VALUES
 (1, 'SE GUARDO LA VENTA: 22', '2024-10-09 18:10:06', 'admin'),
-(2, 'SE GUARDO EL PAGO CON VENTA: 22 IMPORTE PAGADO:0 ImporteDevuelto0 Tipo de PagoEfectivo', '2024-10-09 18:10:06', 'admin');
+(2, 'SE GUARDO EL PAGO CON VENTA: 22 IMPORTE PAGADO:0 ImporteDevuelto0 Tipo de PagoEfectivo', '2024-10-09 18:10:06', 'admin'),
+(3, 'SE GUARDO EL PRODUCTO: Coca Cola 3 Litros', '2026-01-04 01:44:41', NULL),
+(4, 'SE EDITO EL PRODUCTO: 102', '2026-01-04 01:45:13', 'admin'),
+(5, 'SE EDITO EL PRODUCTO: 102', '2026-01-04 01:45:22', 'admin'),
+(6, 'SE GUARDO LA VENTA: 23', '2026-01-04 01:49:50', 'admin'),
+(7, 'SE GUARDO EL PAGO CON VENTA: 23 IMPORTE PAGADO:0 ImporteDevuelto0 Tipo de PagoEfectivo', '2026-01-04 01:49:50', 'admin'),
+(8, 'SE GUARDO EL PRODUCTO: Pastel', '2026-01-04 02:13:58', 'admin'),
+(9, 'SE GUARDO LA VENTA: 24', '2026-01-04 02:14:37', 'admin'),
+(10, 'SE GUARDO EL PAGO CON VENTA: 24 IMPORTE PAGADO:50 ImporteDevuelto0 Tipo de PagoEfectivo', '2026-01-04 02:14:37', 'admin');
 
 -- --------------------------------------------------------
 
@@ -134,7 +142,9 @@ INSERT INTO `clases` (`id`, `clase`) VALUES
 (24, 'vendor/autoload.php'),
 (25, 'modelos/ventasDetalle.modelo.php'),
 (26, 'modelos/descuentos.modelo.php'),
-(27, 'controladores/descuentos.controlador.php');
+(27, 'controladores/descuentos.controlador.php'),
+(28, 'controladores/respaldos.controlador.php'),
+(29, 'modelos/respaldos.modelo.php');
 
 -- --------------------------------------------------------
 
@@ -160,7 +170,7 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id`, `nombre`, `documento`, `email`, `telefono`, `direccion`, `fecha_nacimiento`, `compras`, `ultima_compra`, `fecha`) VALUES
-(21, 'PUBLICO GENERAL', '0', '', '(12) 3123-1231', 'ASD', '1900-01-01', 83, '2024-10-09 18:10:06', '2022-08-03 00:43:20');
+(21, 'PUBLICO GENERAL', '0', '', '(12) 3123-1231', 'ASD', '1900-01-01', 86, '2026-01-04 02:14:37', '2022-08-03 00:43:20');
 
 -- --------------------------------------------------------
 
@@ -235,7 +245,8 @@ CREATE TABLE `descuentos` (
 --
 
 INSERT INTO `descuentos` (`id`, `descripcion`, `porcentaje`) VALUES
-(1, 'Cuentos 10 Porciento', 10.00);
+(1, 'Descuento 10 Porciento', 10.00),
+(2, 'Descuento del 5 porciento', 5.00);
 
 -- --------------------------------------------------------
 
@@ -255,7 +266,9 @@ CREATE TABLE `descuentos_por_usuario` (
 --
 
 INSERT INTO `descuentos_por_usuario` (`id`, `idDescuento`, `idUsuario`, `estado`) VALUES
-(1, 1, 1, 'SI');
+(1, 1, 1, 'SI'),
+(2, 2, 63, 'SI'),
+(3, 2, 1, 'SI');
 
 -- --------------------------------------------------------
 
@@ -296,7 +309,9 @@ INSERT INTO `pagos` (`id`, `idVenta`, `importePagado`, `importeDevuelto`, `fecha
 (96, 19, 443.00, 441.60, '2022-08-02 00:00:00', 'Efectivo', 6),
 (97, 20, 3.00, 1.60, '2022-08-02 00:00:00', 'Efectivo', 6),
 (98, 21, 1000.00, 996.75, '2023-05-09 00:00:00', 'Efectivo', 6),
-(99, 22, 0.00, 0.00, '2024-10-09 00:00:00', 'Efectivo', 6);
+(99, 22, 0.00, 0.00, '2024-10-09 00:00:00', 'Efectivo', 6),
+(100, 23, 0.00, 0.00, '2026-01-03 00:00:00', 'Efectivo', 6),
+(101, 24, 50.00, 0.00, '2026-01-03 00:00:00', 'Efectivo', 6);
 
 -- --------------------------------------------------------
 
@@ -340,16 +355,17 @@ CREATE TABLE `perfiles` (
   `stock` varchar(5) DEFAULT NULL,
   `actualizar` varchar(5) DEFAULT NULL,
   `cajas` varchar(5) DEFAULT NULL,
-  `permiteVerStockVentas` varchar(5) DEFAULT NULL
+  `permiteVerStockVentas` varchar(5) DEFAULT NULL,
+  `respaldos` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `perfiles`
 --
 
-INSERT INTO `perfiles` (`perfil`, `descripcion`, `menuConfiguraciones`, `datosEmpresa`, `usuarios`, `perfiles`, `configuracionCorreo`, `clientes`, `productos`, `categorias`, `cotizaciones`, `administrarCotizaciones`, `modificarCotizaciones`, `eliminarCotizaciones`, `menuCotizaciones`, `menuVentas`, `ventas`, `administrarVentas`, `modificarVentas`, `eliminarVentas`, `facturacionElectronica`, `reportesVentas`, `cajasSuperiores`, `graficoGanancias`, `productosMasVendidos`, `productosAgregadosRecientemente`, `bitacora`, `pagos`, `historicoPagos`, `imprimirPagos`, `eliminarPagos`, `costoProductos`, `stock`, `actualizar`, `cajas`, `permiteVerStockVentas`) VALUES
-(1, 'Administrador', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', NULL, 'on', NULL, 'on', 'on'),
-(4, 'Vendedor', NULL, NULL, NULL, NULL, NULL, 'on', 'on', 'on', NULL, NULL, NULL, NULL, NULL, 'on', 'on', 'on', 'on', 'on', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'on', 'on', 'on', NULL, 'on', 'on', NULL, 'on', 'on');
+INSERT INTO `perfiles` (`perfil`, `descripcion`, `menuConfiguraciones`, `datosEmpresa`, `usuarios`, `perfiles`, `configuracionCorreo`, `clientes`, `productos`, `categorias`, `cotizaciones`, `administrarCotizaciones`, `modificarCotizaciones`, `eliminarCotizaciones`, `menuCotizaciones`, `menuVentas`, `ventas`, `administrarVentas`, `modificarVentas`, `eliminarVentas`, `facturacionElectronica`, `reportesVentas`, `cajasSuperiores`, `graficoGanancias`, `productosMasVendidos`, `productosAgregadosRecientemente`, `bitacora`, `pagos`, `historicoPagos`, `imprimirPagos`, `eliminarPagos`, `costoProductos`, `stock`, `actualizar`, `cajas`, `permiteVerStockVentas`, `respaldos`) VALUES
+(1, 'Administrador', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', NULL, 'on', NULL, 'on', 'on', NULL),
+(4, 'Vendedor', NULL, NULL, NULL, NULL, NULL, 'on', 'on', 'on', NULL, NULL, NULL, NULL, NULL, 'on', 'on', 'on', 'on', 'on', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'on', 'on', 'on', NULL, 'on', 'on', NULL, 'on', 'on', NULL);
 
 -- --------------------------------------------------------
 
@@ -375,7 +391,29 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `id_categoria`, `codigo`, `descripcion`, `imagen`, `stock`, `precio_compra`, `precio_venta`, `ventas`, `fecha`) VALUES
-(73, 1, '101', 'qwe', 'vistas/img/productos/default/anonymous.png', 40, 1, 1.4, 83, '2022-08-03 00:43:10');
+(73, 1, '101', 'qwe', 'vistas/img/productos/default/anonymous.png', 40, 1, 1.4, 83, '2022-08-03 00:43:10'),
+(74, 1, '102', 'Coca Cola 3 Litros', 'vistas/img/productos/default/anonymous.png', 28, 40, 56, 2, '2026-01-04 01:44:41'),
+(75, 3, '301', 'Pastel', 'vistas/img/productos/default/anonymous.png', 29, 100, 140, 1, '2026-01-04 02:13:58');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `respaldos`
+--
+
+CREATE TABLE `respaldos` (
+  `id` int(11) NOT NULL,
+  `descripcion` varchar(256) DEFAULT NULL,
+  `archivo` varchar(512) DEFAULT NULL,
+  `uuid` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `respaldos`
+--
+
+INSERT INTO `respaldos` (`id`, `descripcion`, `archivo`, `uuid`) VALUES
+(6, 'asd', '/home/julio/Fuentes/jcposUltimate/backups/backup_pos-2026-01-10_203411.sql', '036de55f-ee96-11f0-b980-581122db9904');
 
 -- --------------------------------------------------------
 
@@ -401,7 +439,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `usuario`, `password`, `perfil`, `foto`, `estado`, `ultimo_login`, `fecha`, `intentos`) VALUES
-(1, 'Administrador', 'admin', '$2a$07$asxx54ahjppf45sd87a5auXBm1Vr2M1NV5t/zNQtGHGpS5fFirrbG', 1, 'vistas/img/usuarios/admin/489.jpg', 1, '2024-11-02 11:26:31', '2020-04-27 20:20:56', 2),
+(1, 'Administrador', 'admin', '$2a$07$asxx54ahjppf45sd87a5auXBm1Vr2M1NV5t/zNQtGHGpS5fFirrbG', 1, 'vistas/img/usuarios/admin/489.jpg', 1, '2026-01-11 12:58:33', '2020-04-27 20:20:56', 2),
 (63, 'vendedor', 'vendedor', '$2a$07$asxx54ahjppf45sd87a5auF3SxTPxKrykQWP2opioJ/PI/QjcniEW', 4, '', 1, '2022-08-02 14:02:24', '2022-08-02 16:07:21', NULL);
 
 -- --------------------------------------------------------
@@ -459,7 +497,9 @@ INSERT INTO `ventas` (`id`, `codigo`, `id_cliente`, `id_vendedor`, `productos`, 
 (993, 20, 21, 1, '[{\"id\":\"73\",\"renglon\":\"1\",\"descripcion\":\"qwe\",\"cantidad\":\"1\",\"stock\":\"72\",\"precio\":\"1.4\",\"total\":\"1.4\"}]', 0, 1.4, 1.4, 'Efectivo', '2022-08-02 06:00:00', 'VEN', '2022-09-01 00:00:00', 0, '', '30', 'undefined', '19c594da-1270-11ed-bacc-6c88143ba5c4', 6),
 (1015, 21, 21, 1, '[{\"id\":\"73\",\"renglon\":\"1\",\"descripcion\":\"qwe\",\"cantidad\":\"1\",\"stock\":\"66\",\"precio\":\"1.4\",\"porcDescuento\":\"0\",\"descuentoProducto\":\"0\",\"idDescuento\":\"0\",\"total\":\"1.4\"},{\"id\":\"73\",\"renglon\":\"2\",\"descripcion\":\"qwe\",\"cantidad\":\"1\",\"stock\":\"66\",\"precio\":\"1.4\",\"porcDescuento\":\"0\",\"descuentoProducto\":\"0\",\"idDescuento\":\"0\",\"total\":\"1.4\"}]', 0.44799999999999995, 2.8, 3.248, 'Efectivo', '2023-05-09 07:00:00', 'VEN', '2023-06-08 00:00:00', 0, '', '30', 'undefined', 'a76d2dfc-eef2-11ed-a3d7-6c88143ba5c4', 6),
 (1016, 2, 21, 1, '[{\"id\":\"73\",\"renglon\":\"1\",\"descripcion\":\"qwe\",\"cantidad\":\"1\",\"stock\":\"40\",\"precio\":\"2.4\",\"porcDescuento\":\"10.00\",\"descuentoProducto\":\"0.13999999999999999\",\"idDescuento\":\"1\",\"total\":\"2.4\"}]', 0.3616, 2.26, 2.6216, '', '2023-05-09 07:00:00', 'COT', '2023-06-08 00:00:00', 0, '', '30', '', '5af7431c-eef5-11ed-a3d7-6c88143ba5c4', 0),
-(1017, 22, 21, 1, '[{\"id\":\"73\",\"renglon\":\"1\",\"descripcion\":\"qwe\",\"cantidad\":\"1\",\"stock\":\"40\",\"precio\":\"1.4\",\"porcDescuento\":\"0\",\"descuentoProducto\":\"0\",\"idDescuento\":\"0\",\"total\":\"1.4\"}]', 0.22399999999999998, 1.4, 1.624, 'Efectivo', '2024-10-09 07:00:00', 'VEN', '2024-11-08 00:00:00', 0, '', '30', 'undefined', '0150433e-866a-11ef-a68a-38dead01c3a3', 6);
+(1017, 22, 21, 1, '[{\"id\":\"73\",\"renglon\":\"1\",\"descripcion\":\"qwe\",\"cantidad\":\"1\",\"stock\":\"40\",\"precio\":\"1.4\",\"porcDescuento\":\"0\",\"descuentoProducto\":\"0\",\"idDescuento\":\"0\",\"total\":\"1.4\"}]', 0.22399999999999998, 1.4, 1.624, 'Efectivo', '2024-10-09 07:00:00', 'VEN', '2024-11-08 00:00:00', 0, '', '30', 'undefined', '0150433e-866a-11ef-a68a-38dead01c3a3', 6),
+(1018, 23, 21, 1, '[{\"id\":\"74\",\"renglon\":\"1\",\"descripcion\":\"Coca Cola 3 Litros\",\"cantidad\":\"1\",\"stock\":\"29\",\"precio\":\"100\",\"porcDescuento\":\"10.00\",\"descuentoProducto\":\"10\",\"idDescuento\":\"1\",\"total\":\"100\"}]', 14.4, 90, 104.4, 'Efectivo', '2026-01-03 07:00:00', 'VEN', '2026-02-02 00:00:00', 0, '', '30', 'undefined', '13cb536b-e90f-11f0-9d9d-581122db9904', 6),
+(1019, 24, 21, 1, '[{\"id\":\"74\",\"renglon\":\"1\",\"descripcion\":\"Coca Cola 3 Litros\",\"cantidad\":\"1\",\"stock\":\"28\",\"precio\":\"56\",\"porcDescuento\":\"10.00\",\"descuentoProducto\":\"5.6000000000000005\",\"idDescuento\":\"1\",\"total\":\"56\"},{\"id\":\"75\",\"renglon\":\"2\",\"descripcion\":\"Pastel\",\"cantidad\":\"1\",\"stock\":\"29\",\"precio\":\"140\",\"porcDescuento\":\"5.00\",\"descuentoProducto\":\"7\",\"idDescuento\":\"2\",\"total\":\"140\"}]', 29.344, 183.4, 212.744, 'Efectivo', '2026-01-03 07:00:00', 'VEN', '2026-02-02 00:00:00', 0, '', '30', 'undefined', '0a71dde2-e913-11f0-9d9d-581122db9904', 6);
 
 -- --------------------------------------------------------
 
@@ -488,7 +528,10 @@ INSERT INTO `ventasdetalle` (`id`, `idVenta`, `idProducto`, `descripcion`, `cant
 (1, 1015, 73, 'qwe', 1.00000, 1.00, 1.00, 0, 0.00, 0.00),
 (2, 1015, 73, 'qwe', 1.00000, 1.00, 1.00, 0, 0.00, 0.00),
 (3, 1016, 73, 'qwe', 1.00000, 2.00, 2.00, 1, 0.14, 10.00),
-(4, 1017, 73, 'qwe', 1.00000, 1.00, 1.00, 0, 0.00, 0.00);
+(4, 1017, 73, 'qwe', 1.00000, 1.00, 1.00, 0, 0.00, 0.00),
+(5, 1018, 74, 'Coca Cola 3 Litros', 1.00000, 100.00, 100.00, 1, 10.00, 10.00),
+(6, 1019, 74, 'Coca Cola 3 Litros', 1.00000, 56.00, 56.00, 1, 5.60, 10.00),
+(7, 1019, 75, 'Pastel', 1.00000, 140.00, 140.00, 2, 7.00, 5.00);
 
 --
 -- Índices para tablas volcadas
@@ -562,6 +605,12 @@ ALTER TABLE `productos`
   ADD KEY `ProductoCategoria` (`id_categoria`);
 
 --
+-- Indices de la tabla `respaldos`
+--
+ALTER TABLE `respaldos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -588,7 +637,7 @@ ALTER TABLE `ventasdetalle`
 -- AUTO_INCREMENT de la tabla `bitacora`
 --
 ALTER TABLE `bitacora`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `caja`
@@ -606,7 +655,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `clases`
 --
 ALTER TABLE `clases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -624,31 +673,37 @@ ALTER TABLE `datosempresa`
 -- AUTO_INCREMENT de la tabla `descuentos`
 --
 ALTER TABLE `descuentos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `descuentos_por_usuario`
 --
 ALTER TABLE `descuentos_por_usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT de la tabla `perfiles`
 --
 ALTER TABLE `perfiles`
-  MODIFY `perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+
+--
+-- AUTO_INCREMENT de la tabla `respaldos`
+--
+ALTER TABLE `respaldos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
@@ -660,13 +715,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1018;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1020;
 
 --
 -- AUTO_INCREMENT de la tabla `ventasdetalle`
 --
 ALTER TABLE `ventasdetalle`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas

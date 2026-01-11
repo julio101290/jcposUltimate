@@ -211,7 +211,7 @@ session_start();
                         $_GET["ruta"] == "acercaDe" ||
                         $_GET["ruta"] == "cajadiaria" ||
                         $_GET["ruta"] == "descuentos" ||
-                        $_GET["ruta"] == "descuentos" ||
+                        $_GET["ruta"] == "salir" ||
                         $_GET["ruta"] == "respaldos") {
 
                     include "modulos/" . $_GET["ruta"] . ".php";
