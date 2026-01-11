@@ -1,48 +1,42 @@
 <aside class="main-sidebar">
 
-	 <section class="sidebar">
+    <section class="sidebar">
 
-		<ul class="sidebar-menu">
+        <ul class="sidebar-menu">
 
-		    <div class="user-panel">
-		<div class="pull-left image">
+            <div class="user-panel">
+                <div class="pull-left image">
 
-			  <?php
+                    <?php
+                    if ($_SESSION["foto"] != "") {
 
-			if($_SESSION["foto"] != ""){
-
-				echo '<img src="'.$_SESSION["foto"].'" class="img-circle" alt="User Image">';
-
-			}else{
+                        echo '<img src="' . $_SESSION["foto"] . '" class="img-circle" alt="User Image">';
+                    } else {
 
 
-				echo '<img src="vistas/img/usuarios/default/anonymous.png" class="img-circle" alt="User Image">';
-
-			}
-
-			?>
+                        echo '<img src="vistas/img/usuarios/default/anonymous.png" class="img-circle" alt="User Image">';
+                    }
+                    ?>
 
 
-		</div>
-		<div class="pull-left info">
-		  <p><?php  echo $_SESSION["nombre"]; ?></p>
-		  <a href="#"><i class="fa fa-circle text-success"></i> En Linea</a>
-		</div>
-	      </div>
-			 <!-- search form -->
-	      <form action="#" method="get" class="sidebar-form">
-		<div class="input-group">
-		  <input type="text" name="search" id="search" class="form-control search-menu-box" placeholder="Buscar...">
-		</div>
-	      </form>
+                </div>
+                <div class="pull-left info">
+                    <p><?php echo $_SESSION["nombre"]; ?></p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> En Linea</a>
+                </div>
+            </div>
+            <!-- search form -->
+            <form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="search" id="search" class="form-control search-menu-box" placeholder="Buscar...">
+                </div>
+            </form>
 
-		<?php
+            <?php
+//MENU COTIZACONES
 
-
-		//MENU COTIZACONES
-
-		if($_SESSION["menuCotizaciones"] == "on"){
-			echo '<li '.strMenuActivo($_GET["ruta"],"crearcotizacion").strMenuActivo($_GET["ruta"],"administrarcotizaciones").' class="treeview">
+            if ($_SESSION["menuCotizaciones"] == "on") {
+                echo '<li ' . strMenuActivo($_GET["ruta"], "crearcotizacion") . strMenuActivo($_GET["ruta"], "administrarcotizaciones") . ' class="treeview">
 
 					<a href="#">
 
@@ -59,9 +53,8 @@
 					</a>
 					<ul class="treeview-menu">';
 
-
-				if($_SESSION["cotizaciones"] == "on"){
-					echo '<li>
+                if ($_SESSION["cotizaciones"] == "on") {
+                    echo '<li>
 
 						<a href="crearcotizacion" accesskey="c">
 
@@ -71,10 +64,10 @@
 						</a>
 
 					</li>';
-				}
+                }
 
-				if($_SESSION["administrarCotizaciones"] == "on"){
-					echo '	<li>
+                if ($_SESSION["administrarCotizaciones"] == "on") {
+                    echo '	<li>
 
 							<a href="administrarcotizaciones" accesskey="x">
 
@@ -84,18 +77,18 @@
 							</a>
 
 						</li>';
-				}
+                }
 
-			echo '
+                echo '
 			</ul>
 
 	</li>
 			';
-		}
+            }
 
-		if($_SESSION["menuVentas"] == "on" ){
+            if ($_SESSION["menuVentas"] == "on") {
 
-			echo '<li '.strMenuActivo($_GET["ruta"],"ventas").' class="treeview">
+                echo '<li ' . strMenuActivo($_GET["ruta"], "ventas") . ' class="treeview">
 
 				<a href="#">
 
@@ -113,8 +106,8 @@
 
 				<ul class="treeview-menu">';
 
-				if($_SESSION["administrarVentas"] == "on" ){
-					echo	'<li>
+                if ($_SESSION["administrarVentas"] == "on") {
+                    echo '<li>
 
 							<a href="ventas">
 
@@ -124,12 +117,11 @@
 							</a>
 
 						</li>';
+                }
 
-				}
 
-
-				if($_SESSION["ventas"] == "on" ){
-					echo '<li>
+                if ($_SESSION["ventas"] == "on") {
+                    echo '<li>
 
 						<a href="crear-venta">
 
@@ -138,10 +130,10 @@
 
 						</a>
 						</li>';
-					}
+                }
 
-				if($_SESSION["facturacionElectronica"] == "on" ){
-						echo '<li>
+                if ($_SESSION["facturacionElectronica"] == "on") {
+                    echo '<li>
 							<a href="facturacionElectronica">
 
 							<i class="fa fa-circle-o"></i>
@@ -150,11 +142,11 @@
 						</a>
 
 					</li>';
-				}
+                }
 
 
-				if("on" == "on" ){
-						echo '<li>
+                if ("on" == "on") {
+                    echo '<li>
 							<a href="ventasProductos">
 
 							<i class="fa fa-circle-o"></i>
@@ -163,11 +155,11 @@
 						</a>
 
 					</li>';
-				}
+                }
 
-					if($_SESSION["reportesVentas"] == "on"){
+                if ($_SESSION["reportesVentas"] == "on") {
 
-					echo '<li>
+                    echo '<li>
 
 						<a href="reportes">
 
@@ -177,14 +169,13 @@
 						</a>
 
 					</li>';
-
-					}
-
+                }
 
 
-										if($_SESSION["cajas"] == "on"){
 
-										echo '<li>
+                if ($_SESSION["cajas"] == "on") {
+
+                    echo '<li>
 
 											<a href="cajadiaria">
 
@@ -194,23 +185,22 @@
 											</a>
 
 										</li>';
-
-										}
-
+                }
 
 
-				echo '</ul>
+
+                echo '</ul>
 
 			</li>';
-		}
+            }
 
 
 
 
 
-		if($_SESSION["categorias"] == "on"){
+            if ($_SESSION["categorias"] == "on") {
 
-			echo '<li '.strMenuActivo($_GET["ruta"],"categorias").'>
+                echo '<li ' . strMenuActivo($_GET["ruta"], "categorias") . '>
 
 				<a href="categorias">
 
@@ -220,12 +210,11 @@
 				</a>
 
 			</li>';
+            }
 
-		}
+            if ($_SESSION["productos"] == "on") {
 
-		if($_SESSION["productos"] == "on"){
-
-			echo '<li '.strMenuActivo($_GET["ruta"],"productos").'>
+                echo '<li ' . strMenuActivo($_GET["ruta"], "productos") . '>
 
 				<a href="productos">
 
@@ -235,13 +224,13 @@
 				</a>
 
 			</li>';
-		}
+            }
 
 
 
-		if($_SESSION["clientes"] == "on"){
+            if ($_SESSION["clientes"] == "on") {
 
-			echo '<li '.strMenuActivo($_GET["ruta"],"clientes").'>
+                echo '<li ' . strMenuActivo($_GET["ruta"], "clientes") . '>
 
 				<a href="clientes">
 
@@ -251,11 +240,10 @@
 				</a>
 
 			</li>';
+            }
 
-		}
-
-		if($_SESSION["menuConfiguraciones"] == "on"){
-			echo '<li '.strMenuActivo($_GET["ruta"],"datosEmpresa").strMenuActivo($_GET["ruta"],"usuarios").' class="treeview">
+            if ($_SESSION["menuConfiguraciones"] == "on") {
+                echo '<li ' . strMenuActivo($_GET["ruta"], "datosEmpresa") . strMenuActivo($_GET["ruta"], "usuarios") . ' class="treeview">
 
 					<a href="#">
 
@@ -272,10 +260,10 @@
 
 				<ul class="treeview-menu">';
 
-				if($_SESSION["datosEmpresa"] == "on"){
-					echo '
+                if ($_SESSION["datosEmpresa"] == "on") {
+                    echo '
 
-						<li '.strMenuActivo($_GET["ruta"],"datosEmpresa").'>
+						<li ' . strMenuActivo($_GET["ruta"], "datosEmpresa") . '>
 
 							<a href="datosEmpresa">
 
@@ -284,14 +272,14 @@
 							</a>
 
 						</li>';
-				}
+                }
 
 
 
-				if($_SESSION["usuarios"] == "on"){
-					echo '
+                if ($_SESSION["usuarios"] == "on") {
+                    echo '
 
-					 <li '.strMenuActivo($_GET["ruta"],"usuarios").'>
+					 <li ' . strMenuActivo($_GET["ruta"], "usuarios") . '>
 
 						<a href="usuarios">
 
@@ -301,15 +289,14 @@
 						</a>
 
 					</li> ';
-
-				}
-
-
-				if($_SESSION["perfiles"] == "on"){
-					echo '
+                }
 
 
-					<li '.strMenuActivo($_GET["ruta"],"perfiles").'>
+                if ($_SESSION["perfiles"] == "on") {
+                    echo '
+
+
+					<li ' . strMenuActivo($_GET["ruta"], "perfiles") . '>
 
 							<a href="perfiles">
 
@@ -319,12 +306,12 @@
 							</a>
 
 						</li>';
-				}
+                }
 
 
-				if($_SESSION["configuracionCorreo"] == "on"){
-					echo '
-					 <li '.strMenuActivo($_GET["ruta"],"configurarCorreo").'>
+                if ($_SESSION["configuracionCorreo"] == "on") {
+                    echo '
+					 <li ' . strMenuActivo($_GET["ruta"], "configurarCorreo") . '>
 
 						<a href="configurarCorreo">
 
@@ -334,12 +321,12 @@
 						</a>
 
 					</li>';
-				}
+                }
 
-                                
-                                if("on" == "on"){
-					echo '
-					 <li '.strMenuActivo($_GET["ruta"],"configurarCorreo").'>
+
+                if ("on" == "on") {
+                    echo '
+					 <li ' . strMenuActivo($_GET["ruta"], "configurarCorreo") . '>
 
 						<a href="descuentos">
 
@@ -349,14 +336,29 @@
 						</a>
 
 					</li>';
-				}
+                }
+
+
+                if ("on" == "on") {
+                    echo '
+					 <li ' . strMenuActivo($_GET["ruta"], "respaldos") . '>
+
+						<a href="respaldos">
+
+							<i class="fa fa-database"></i>
+							<span>Respaldos</span>
+
+						</a>
+
+					</li>';
+                }
 
 
 
 
-                        if($_SESSION["actualizar"]== "on"){
-				echo '
-					 <li '.strMenuActivo($_GET["ruta"],"bitacora").'>
+                if ($_SESSION["actualizar"] == "on") {
+                    echo '
+					 <li ' . strMenuActivo($_GET["ruta"], "bitacora") . '>
 
 						<a href="actualizar">
 
@@ -366,11 +368,11 @@
 						</a>
 
 					</li>';
-				}
+                }
 
-			if($_SESSION["bitacora"] == "on"){
-				echo '
-					 <li '.strMenuActivo($_GET["ruta"],"bitacora").'>
+                if ($_SESSION["bitacora"] == "on") {
+                    echo '
+					 <li ' . strMenuActivo($_GET["ruta"], "bitacora") . '>
 
 						<a href="bitacora">
 
@@ -380,41 +382,35 @@
 						</a>
 
 					</li>';
-				}
+                }
 
-				echo '
-				</ul>' ;
+                echo '
+				</ul>';
+            }
+            ?>
 
+        </ul>
 
-		}
-
-
-
-		?>
-
-		</ul>
-
-	 </section>
+    </section>
 
 </aside>
 
 <script>
 
 
-	$(document).ready(function () {
+    $(document).ready(function () {
 
 
-	$("#search").on("keyup", function () {
-	if (this.value.length > 0) {
-	  $(".sidebar-menu li").hide().filter(function () {
-	    return $(this).text().toLowerCase().indexOf($("#search").val().toLowerCase()) != -1;
-	  }).show();
-	}
-	else {
-	  $(".sidebar-menu li").show();
-	}
-	});
+        $("#search").on("keyup", function () {
+            if (this.value.length > 0) {
+                $(".sidebar-menu li").hide().filter(function () {
+                    return $(this).text().toLowerCase().indexOf($("#search").val().toLowerCase()) != -1;
+                }).show();
+            } else {
+                $(".sidebar-menu li").show();
+            }
+        });
 
-	});
+    });
 
 </script>

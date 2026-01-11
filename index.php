@@ -2,6 +2,7 @@
 require_once "configuracion.php";
 require 'modelos/generales.modelo.php';
 $clases = ModeloGenerales::mdlMostrarTabla("clases", "clase", "");
+define('ROOTPATH', __DIR__ );
 
 foreach ($clases as $key => $value) {
 

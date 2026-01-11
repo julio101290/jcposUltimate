@@ -19,6 +19,7 @@
     ]
     ,"require": {
         "mike42/escpos-php": "^2.0",
-        "tecnickcom/tcpdf": "^6.6"
+        "tecnickcom/tcpdf": "^6.6",
+        "julio101290/mysql-backup": "^1.0"
     }
 }
